@@ -45,6 +45,7 @@ module.exports = function ApiBuilder(options) {
 		supportedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH'],
 		prompter = (options && options.prompter) || require('./ask'),
 		isApiResponse = function (obj) {
+			console.log("isApiResponse() typeof obj: ", Object.getPrototypeOf(obj), self.ApiResponse.prototype)
 			return obj && (typeof obj === 'object') && (Object.getPrototypeOf(obj) === self.ApiResponse.prototype);
 		},
 		mergeObjects = function (from, to) {
@@ -82,6 +83,7 @@ module.exports = function ApiBuilder(options) {
 			return (contentType && contentType.split(';')[0]) || 'application/json';
 		},
 		getSuccessBody = function (contentType, handlerResult) {
+			console.log('getSuccessBody() handlerResult:', handlerResult, 'isApiResonse: ', isApiResponse(handlerResult))
 			const contents = isApiResponse(handlerResult) ? handlerResult.response : handlerResult;
 			if (getCanonicalContentType(contentType) === 'application/json') {
 				if (contents === '' || contents ===	undefined) {
